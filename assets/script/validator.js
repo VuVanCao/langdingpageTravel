@@ -1,9 +1,4 @@
-/*
-    Validation 
 
-    tận dụng code js để nhắm lặp lại 
-
-*/
 
 
 // đối tượng Validator
@@ -25,7 +20,8 @@ function Validator(options){
     // bước 1: lấy được form
     var formElement = document.querySelector(options.form);
     function notErrorMessage(inputElement){
-        
+        // var errorElement = getParent(inputElement, options.formGroupSelector)
+        // var errorElement = inputElement.parentElement.querySelector(options.errorSelector);
         var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector)
         errorElement.innerText = '';
         getParent(inputElement, options.formGroupSelector).classList.remove('invalid');
@@ -180,7 +176,7 @@ Validator.isRequired = function(selector, message){
         selector: selector,
         //function test để kiểm tra
         test: function(value){
-            return value ? undefined : message || 'Vui lòng nhập trường này'
+            return value ? undefined : message || 'Please enter value'
         }
 
     };
@@ -191,7 +187,7 @@ Validator.isEmail = function(selector, message){
         selector: selector,
         test: function(value){
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            return regex.test(value) ? undefined: message|| 'trường này phải là email'
+            return regex.test(value) ? undefined: message|| 'is not email'
         }
     }
 }
@@ -200,7 +196,7 @@ Validator.minLength = function(selector, min, message){
     return {
         selector: selector,
         test: function(value){
-            return value.length >= min ? undefined: message|| `Vui lòng nhập tối thiểu ${min} ký tự`
+            return value.length >= min ? undefined: message|| `Enter min ${min} characters`
         }
     }
 }
@@ -210,31 +206,10 @@ Validator.isConfirmed = function(selector, getConfirmValue, message){
     return {
         selector: selector,
         test: function(value){
-            return value === getConfirmValue() ? undefined : message || 'Giá trị nhập vào không chính xác';
+            return value === getConfirmValue() ? undefined : message || 'Input value is incorrect';
         }
     }
 }
 
 
 
-
-// custom message => giúp linh động trong việc thông báo message
-
-/*
-    bài toán 
-    trường hợp
-
-    1 field có nhiều rule
-
-
-
-*/
-
-/*
-lý do khi lấy thuộc tình gender giá trị trả về là other
-
-khi mình lặp qua hết 
-3 thẻ gender giống nhau 
-nó lặp qua -> luôn lấy giá trị cuối cùng
-
-*/

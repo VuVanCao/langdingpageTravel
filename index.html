@@ -186,20 +186,20 @@
         <div class="modal__body">
 
             <!-- Form login -->
-            <form action="" method="POST" class = "form js-form-login">
+            <form action="" method="POST" class = "form js-form-login" id="login-form">
                 <h3 class="heading">Login</h3>
 
                 <div class="spacer"></div>
 
                 <div class="form-group">
                     <label for="username" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Input email">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Ex email@gmail.com">
                     <div class="form-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" placeholder="Input password">
+                    <input type="text" class="form-control" id="password" name="password" placeholder="min 6 characters">
                     <div class="form-message"></div>
                 </div>
 
@@ -239,19 +239,19 @@
 
                 <div class="form-group">
                     <label for="username" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Input email">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Ex email@gmail.com">
                     <div class="form-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" placeholder="Input password">
+                    <input type="text" class="form-control" id="password" name="password" placeholder="min 6 characters">
                     <div class="form-message"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="form-label">Re-password</label>
-                    <input type="text" class="form-control" id="re-password" name="re-password" placeholder="re-password">
+                    <input type="text" class="form-control" id="re-password" name="re-password" placeholder="confirm password">
                     <div class="form-message"></div>
                 </div>
 
@@ -277,6 +277,7 @@
         </div>
     </div>
 </body>
+<script src="./assets/script/validator.js"></script>
 <script>
     let menuList = document.querySelector('.js-header-right-list--icon');
     let overlay = document.querySelector('.js-overlay');
@@ -356,5 +357,41 @@
     } 
 
     linkResgiter.onclick = ()=>{ removeLogin(); addResgiter()}
+
+    // bắt lỗi form
+    Validator({
+        form: '#resgiter-form',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules:[
+            Validator.isRequired("#email"),
+            Validator.isEmail("#email"),
+            Validator.isRequired('#password'),
+            Validator.minLength('#password', 6),
+            Validator.isRequired('#re-password'),
+            Validator.isConfirmed('#password_confirmation', function(){
+                return document.querySelector('#resgiter-form #password').value;
+            }, 'Mật khẩu nhập lại không chính xác')
+        ],
+        onSubmit: function(data){
+            console.log(data);
+        }
+    })
+
+    Validator({
+        form: '#login-form',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules:[
+            Validator.isRequired("#email"),
+            Validator.isEmail("#email"),
+            Validator.isRequired('#password'),
+        ],
+        onSubmit: function(data){
+            console.log(data);
+        }
+    })
+
 </script>
+
 </html>
